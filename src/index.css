@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+.atom-path-1,
+.atom-path-2,
+.atom-path-3 {
+  @apply absolute w-[50px] h-[120px];
+  @apply outline outline-3 outline-[#ff8000] rounded-[100%];
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform;
+  transform: translateZ(0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.atom-path-1 {
+  transform: rotateZ(0deg);
+}
+
+.atom-path-2 {
+  transform: rotateZ(120deg);
+}
+
+.atom-path-3 {
+  transform: rotateZ(240deg);
+}
+
+/* Electron (dot) style */
+.electron {
+  @apply absolute w-4 h-4 bg-[#275ca0] rounded-full;
+  animation: orbit 4s linear forwards;
+  transform-origin: 0 80%;
+  top: 0px;
+}
+
+/* Keyframe animation for improved elliptical orbit with smoother transitions */
+@keyframes orbit {
+  0% {
+    transform: translateX(15px) translateY(0px);
+  }
+  7.5% {
+    transform: translateX(20px) translateY(10px);
+  }
+  12.5% {
+    transform: translateX(23px) translateY(25px);
+  }
+  17.5% {
+    transform: translateX(26px) translateY(45px);
+  }
+  25% {
+    transform: translateX(25px) translateY(70px);
+  }
+  32.5% {
+    transform: translateX(20px) translateY(90px);
+  }
+  37.5% {
+    transform: translateX(10px) translateY(105px);
+  }
+  42.5% {
+    transform: translateX(0px) translateY(115px);
+  }
+  50% {
+    transform: translateX(-10px) translateY(105px);
+  }
+  57.5% {
+    transform: translateX(-20px) translateY(90px);
+  }
+  62.5% {
+    transform: translateX(-25px) translateY(70px);
+  }
+  67.5% {
+    transform: translateX(-26px) translateY(45px);
+  }
+  75% {
+    transform: translateX(-23px) translateY(25px);
+  }
+  82.5% {
+    transform: translateX(-20px) translateY(10px);
+  }
+  87.5% {
+    transform: translateX(-15px) translateY(0px);
+  }
+  92.5% {
+    transform: translateX(0px) translateY(-10px);
+  }
+  100% {
+    transform: translateX(15px) translateY(0px);
+  }
+}
