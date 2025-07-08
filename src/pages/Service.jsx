@@ -16,6 +16,7 @@ const ServicesPage = () => {
         console.error("Error fetching services:", err);
         setLoading(false);
       });
+      console.log("API_BASE_URL:", API_BASE_URL); // Debugging line to check API URL
   }, []);
 
   return (
