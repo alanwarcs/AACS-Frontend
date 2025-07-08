@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "/logo/alt512.png";
 import bluemain from "../assets/images/blue_main.png";
+import API_BASE_URL from "../config"; // ✅ Make sure you have this pointing to your backend
 
 export default function Home() {
   const services = [
@@ -34,6 +35,62 @@ export default function Home() {
     ["MySQL", "https://upload.wikimedia.org/wikipedia/en/d/dd/MySQL_logo.svg"],
     ["PostgreSQL", "https://upload.wikimedia.org/wikipedia/commons/2/29/Postgresql_elephant.svg"],
   ];
+
+  // ✅ Contact Form State
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.name.trim()) newErrors.name = "Name is required";
+    if (!formData.email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)) newErrors.email = "Valid email is required";
+    if (!formData.phone.match(/^\+?\d{10,15}$/)) newErrors.phone = "Valid phone number is required";
+    if (!formData.message.trim()) newErrors.message = "Message is required";
+    return newErrors;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setIsSubmitted(true);
+        setFormData({ name: "", email: "", phone: "", message: "" });
+        setErrors({});
+        setTimeout(() => setIsSubmitted(false), 3000);
+      } else {
+        setErrors({ general: data.message || "Submission failed." });
+      }
+    } catch (err) {
+      setErrors({ general: "Network error. Please try again later." });
+    }
+    setIsSubmitting(false);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: null }));
+  };
 
   return (
     <div className="w-screen text-gray-800">
@@ -125,10 +182,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Section */}
+     {/* About Section + Contact Form */}
       <section className="bg-white py-20 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-start">
-          {/* Logo and Description */}
           <div>
             <img src={logo} alt="Al Anwar Logo" className="w-20 mb-6" />
             <p className="text-gray-700 mb-6">
@@ -145,34 +201,58 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Contact Form */}
           <div>
             <h2 className="text-2xl font-bold text-[#275ca0] mb-4">Get in Touch</h2>
-            <form className="space-y-4">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">Your Name</label>
-                <input type="text" id="name" name="name" placeholder="Enter your name"
-                  className="w-full border border-gray-200 rounded-md px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#ff8000]" required />
+
+            {isSubmitted ? (
+              <div className="text-green-600 p-4 bg-green-50 rounded-md">
+                Thank you! Your message has been sent successfully.
               </div>
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email Address</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email"
-                  className="w-full border border-gray-200 rounded-md px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#ff8000]" required />
-              </div>
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone Number</label>
-                <input type="text" id="phone" name="phone" placeholder="Enter your phone number"
-                  className="w-full border border-gray-200 rounded-md px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#ff8000]" required />
-              </div>
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700">Message</label>
-                <textarea id="message" name="message" rows="4" placeholder="Your message"
-                  className="w-full border border-gray-200 rounded-md px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#ff8000]" required />
-              </div>
-              <button type="submit" className="bg-[#ff8000] text-white px-6 py-2 rounded-md hover:shadow-lg transition">
-                Send Message
-              </button>
-            </form>
+            ) : (
+              <form className="space-y-4" onSubmit={handleSubmit}>
+                {errors.general && (
+                  <p className="text-red-500 text-sm">{errors.general}</p>
+                )}
+                {["name", "email", "phone", "message"].map((field) => (
+                  <div key={field}>
+                    <label htmlFor={field} className="block text-sm font-medium text-gray-700 capitalize">{field}</label>
+                    {field === "message" ? (
+                      <textarea
+                        id={field}
+                        name={field}
+                        value={formData[field]}
+                        onChange={handleChange}
+                        rows="4"
+                        placeholder="Your message"
+                        required
+                        className={`w-full border ${errors[field] ? "border-red-500" : "border-gray-200"} rounded-md px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#ff8000]`}
+                      />
+                    ) : (
+                      <input
+                        type={field === "email" ? "email" : "text"}
+                        id={field}
+                        name={field}
+                        value={formData[field]}
+                        onChange={handleChange}
+                        placeholder={`Enter your ${field}`}
+                        required
+                        className={`w-full border ${errors[field] ? "border-red-500" : "border-gray-200"} rounded-md px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#ff8000]`}
+                      />
+                    )}
+                    {errors[field] && (
+                      <p className="text-red-500 text-xs mt-1">{errors[field]}</p>
+                    )}
+                  </div>
+                ))}
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="bg-[#ff8000] text-white px-6 py-2 rounded-md hover:shadow-lg transition"
+                >
+                  {isSubmitting ? "Sending..." : "Send Message"}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </section>

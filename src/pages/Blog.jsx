@@ -1,111 +1,165 @@
 import React, { useEffect, useState } from "react";
-import API_BASE_URL from "../config"; // adjust path if needed
-
+import API_BASE_URL from "../config";
 
 const BlogsPage = () => {
   const [blogs, setBlogs] = useState([]);
   const [error, setError] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(6);
 
   useEffect(() => {
+    setLoading(true);
     fetch(`${API_BASE_URL}/api/blogs`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch blogs");
         return res.json();
       })
-      .then((data) => setBlogs(data))
-      .catch((err) => setError(err.message));
+      .then((data) => {
+        setBlogs(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
   }, []);
 
-  const mostRecent = blogs[0];
-  const others = blogs.slice(1);
+  const filteredBlogs = blogs.filter((blog) =>
+    blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    blog.description?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const visibleBlogs = filteredBlogs.slice(0, visibleCount);
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + 6);
+  };
+
+  if (loading) return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-pulse">
+        {/* Hero Section Skeleton */}
+        <div className="bg-gray-200 h-48 rounded-2xl mb-8"></div>
+        {/* Search Bar Skeleton */}
+        <div className="max-w-lg mx-auto mb-8">
+          <div className="h-10 bg-gray-200 rounded-full"></div>
+        </div>
+        {/* Blogs Grid Skeleton */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[1, 2, 3, 4, 5, 6].map((_, index) => (
+            <div key={index} className="bg-white rounded-2xl shadow-lg p-6">
+              <div className="h-48 bg-gray-200 rounded-xl mb-4"></div>
+              <div className="h-6 bg-gray-200 rounded w-3/4 mb-3"></div>
+              <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
+              <div className="h-4 bg-gray-200 rounded w-5/6 mb-2"></div>
+              <div className="h-4 bg-gray-200 rounded w-20"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  if (error) return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <p className="text-red-600 text-xl font-semibold">{error}</p>
+    </div>
+  );
 
   return (
-    <div className="w-full flex flex-col flex-grow text-gray-800">
+    <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#275ca0] to-[#3b72b8] py-12 px-6 text-center">
+      <section className="bg-gradient-to-br from-[#3b72b8] to-[#5a8cd1] py-16 px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">Our Blogs</h1>
-          <p className="text-md md:text-lg text-white opacity-90">
+          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">Our Blogs</h1>
+          <p className="text-lg sm:text-xl text-white opacity-90 mb-6">
             Insights and updates from Al Anwar Creativity Studio.
           </p>
+          {/* Search Bar */}
+          <div className="max-w-lg mx-auto">
+            <input
+              type="text"
+              placeholder="Search blogs..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full px-4 py-2 rounded-full bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#ff8000] transition"
+              aria-label="Search blogs"
+            />
+          </div>
         </div>
       </section>
 
       {/* Blogs Section */}
-      <section className="flex-grow py-12 px-6 bg-gray-100 min-h-[600px]">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
-          {/* Most Recent Blog */}
-          <div className="md:col-span-2">
-            <h2 className="text-xl font-semibold text-[#275ca0] mb-4">Most Recent</h2>
-            {error ? (
-              <p className="text-red-600">{error}</p>
-            ) : mostRecent ? (
-              <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition transform overflow-hidden h-fit">
-                <img
-                  src={mostRecent.headerImageUrl}
-                  alt={mostRecent.title}
-                  className="w-full h-[70%] object-cover"
-                />
-                <div className="p-5">
-                  <h3 className="text-lg font-bold text-[#275ca0] mb-2">{mostRecent.title}</h3>
-                  <p className="text-gray-800 text-sm mb-2">
-                    {mostRecent.description?.substring(0, 200) + "..."}
-                  </p>
-                  <p className="text-xs text-gray-500 mb-3">
-                    Published on {new Date(mostRecent.datePublished).toLocaleDateString()}
-                  </p>
-                  <a
-                    href={`/blogs/${mostRecent.slug}`}
-                    className="inline-flex items-center text-[#ff8000] hover:text-[#e67300] font-medium text-sm transition-colors duration-200 mb-3"
-                  >
-                    Read More
-                    <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            ) : (
-              <p className="text-gray-600">No blogs available at the moment.</p>
-            )}
-          </div>
-
-          {/* Other Blogs */}
-          <div>
-            <h2 className="text-xl font-semibold text-[#275ca0] mb-4">Other Blogs</h2>
-            <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
-              {others.map((blog) => (
+      <section className="py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          {filteredBlogs.length === 0 ? (
+            <p className="text-gray-600 text-center text-lg">
+              No blogs match your search.
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {visibleBlogs.map((blog) => (
                 <div
                   key={blog.id || blog.slug}
-                  className="bg-white rounded-lg shadow-sm hover:shadow-lg transition transform p-4 flex space-x-4"
+                  className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 overflow-hidden"
                 >
                   <img
                     src={blog.headerImageUrl}
                     alt={blog.title}
-                    className="w-20 h-20 object-cover rounded-md"
+                    className="w-full h-48 object-cover"
                   />
-                  <div>
-                    <h5 className="text-md font-medium text-[#275ca0] mb-1">{blog.title}</h5>
-                    <p className="text-gray-800 text-xs mb-1">
-                      {blog.description?.substring(0, 40) + "..."}
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold text-[#275ca0] mb-3">
+                      {blog.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-3">
+                      {blog.description?.substring(0, 150)}...
                     </p>
-                    <p className="text-xs text-gray-500 mb-2">
-                      {new Date(blog.datePublished).toLocaleDateString()}
+                    <p className="text-xs text-gray-500 mb-4">
+                      Published on{" "}
+                      {new Date(blog.datePublished).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
                     </p>
                     <a
                       href={`/blogs/${blog.slug}`}
-                      className="inline-flex items-center text-[#ff8000] hover:text-[#e67300] text-xs font-medium transition-colors duration-200"
+                      className="inline-flex items-center text-[#ff8000] hover:text-[#e67300] font-medium text-sm transition-colors duration-200"
+                      aria-label={`Read more about ${blog.title}`}
                     >
                       Read More
-                      <svg className="ml-1 w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                      <svg
+                        className="ml-2 w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M9 5l7 7-7 7"
+                        />
                       </svg>
                     </a>
                   </div>
                 </div>
               ))}
             </div>
-          </div>
+          )}
+          {visibleCount < filteredBlogs.length && (
+            <div className="mt-8 text-center">
+              <button
+                onClick={handleLoadMore}
+                className="px-6 py-3 rounded-full bg-[#275ca0] text-white font-medium hover:bg-[#1e4a80] transition focus:outline-none focus:ring-2 focus:ring-[#ff8000]"
+                aria-label="Load more blogs"
+              >
+                Load More
+              </button>
+            </div>
+          )}
         </div>
       </section>
     </div>
