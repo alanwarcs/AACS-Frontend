@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
+import API_BASE_URL from "../config";
 
 const ServicesPage = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5078/api/services")  // ✅ updated and correct
+    fetch(`${API_BASE_URL}/api/services`)
       .then((res) => res.json())
       .then((data) => {
         setServices(data);

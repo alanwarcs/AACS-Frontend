@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import API_BASE_URL from "../config"; // ✅ add this line
 
 const BlogDetails = () => {
   const { slug } = useParams();
@@ -8,7 +9,7 @@ const BlogDetails = () => {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:5078/api/blogs/${slug}`)
+    fetch(`${API_BASE_URL}/api/blogs/${slug}`)
       .then((res) => {
         if (!res.ok) throw new Error("Blog not found");
         return res.json();

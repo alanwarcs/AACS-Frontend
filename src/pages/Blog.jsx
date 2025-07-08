@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
+import API_BASE_URL from "../config"; // adjust path if needed
+
 
 const BlogsPage = () => {
   const [blogs, setBlogs] = useState([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5078/api/blogs")
+    fetch(`${API_BASE_URL}/api/blogs`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch blogs");
         return res.json();
