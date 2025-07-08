@@ -31,8 +31,7 @@
   @apply absolute w-4 h-4 bg-[#275ca0] rounded-full;
   animation: orbit 4s linear forwards;
   transform-origin: 0 80%;
-  top: 4px;
-  left: 20px;
+  top: 0px;
 }
 
 /* Keyframe animation for improved elliptical orbit with smoother transitions */
