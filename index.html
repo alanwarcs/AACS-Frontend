@@ -2,13 +2,23 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image" href="logo/alt512.svg" />
+    <!-- Favicon (PNG, standard support) -->
+    <link rel="icon" type="image/png" href="/logo/alt512.png?v=2" />
+
+    <!-- Apple Touch Icon (iOS) -->
+    <link rel="apple-touch-icon" href="/logo/alt512.png?v=2" />
+
+    <!-- Meta tags -->
+    <meta name="description" content="Al Anwar Creativity Studio" />
+    <meta
+      name="keywords"
+      content="Al Anwar, Creativity Studio, AACS, Web Development, Design"
+    />
+    <meta name="author" content="Al Anwar Creativity Studio" />
+    <meta name="theme-color" content="#ffffff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Al Anwar Creativity Studio</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+
     <!-- Google tag (gtag.js) -->
     <script
       async
@@ -23,5 +33,9 @@
 
       gtag("config", "G-5S2P6J3W3V");
     </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
