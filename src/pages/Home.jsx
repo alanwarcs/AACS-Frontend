@@ -93,7 +93,7 @@ export default function Home() {
   };
 
   return (
-    <div className="w-screen text-gray-800">
+    <div className="text-gray-800">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-white to-[#fff3e6] py-16 px-6 text-center overflow-hidden">
         <div className="flex flex-col items-center relative z-10 max-w-4xl mx-auto">
