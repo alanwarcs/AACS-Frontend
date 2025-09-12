@@ -124,18 +124,18 @@ export default function Home() {
           we provide end-to-end solutions that empower your business in the digital age.
         </p>
         <div className="flex gap-4">
-          <a
-            href="#services"
+          <Link
+            to="/services"
             className="bg-[#ff8000] text-white px-6 py-3 rounded-full font-medium hover:shadow-lg transition"
           >
             Explore Services
-          </a>
-          <a
-            href="#contact"
+          </Link>
+          <Link
+            to="/contact"
             className="border border-[#275ca0] text-[#275ca0] px-6 py-3 rounded-full font-medium hover:bg-[#275ca0] hover:text-white transition"
           >
             Contact Us
-          </a>
+          </Link>
         </div>
         </div>
       </section>
