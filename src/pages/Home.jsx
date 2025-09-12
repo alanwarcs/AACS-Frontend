@@ -111,20 +111,32 @@ export default function Home() {
               <img src={bluemain} alt="" className="w-9 h-7" />
             </div>
           </div>
-          {/* <img src={logo} alt="Al Anwar Logo" className="w-28 h-30" /> */}
-          <h1 className="text-2xl md:text-3xl font-semibold my-4 text-[#ff8000]">
-            Welcome to Al Anwar Creativity Studio
-          </h1>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[#275ca0]">
-            Innovative Software Solutions
-          </h2>
-          <p className="text-lg md:text-xl text-gray-700 mb-8">
-            Custom Software, Modern Web Development, and Scalable SaaS Services
-            crafted to elevate your business in the digital age.
-          </p>
-          <button className="bg-[#ff8000] text-white px-6 py-3 rounded-full font-medium hover:shadow-lg transition">
-            Launching Soon
-          </button>
+        {/* <img src={logo} alt="Al Anwar Logo" className="w-28 h-30" /> */}
+        <h1 className="text-2xl md:text-3xl font-semibold my-4 text-[#ff8000]">
+          Welcome to Al Anwar Infotech
+        </h1>
+        <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[#275ca0]">
+          Complete IT & Digital Solutions
+        </h2>
+        <p className="text-lg md:text-xl text-gray-700 mb-8">
+          From innovative <span className="font-semibold">Software Development</span> 
+          to reliable <span className="font-semibold">Hardware, Networking, and Security Services</span>, 
+          we provide end-to-end solutions that empower your business in the digital age.
+        </p>
+        <div className="flex gap-4">
+          <a
+            href="#services"
+            className="bg-[#ff8000] text-white px-6 py-3 rounded-full font-medium hover:shadow-lg transition"
+          >
+            Explore Services
+          </a>
+          <a
+            href="#contact"
+            className="border border-[#275ca0] text-[#275ca0] px-6 py-3 rounded-full font-medium hover:bg-[#275ca0] hover:text-white transition"
+          >
+            Contact Us
+          </a>
+        </div>
         </div>
       </section>
 
