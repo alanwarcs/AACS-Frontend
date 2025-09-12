@@ -11,8 +11,7 @@ export default function Navbar() {
     (pathname.startsWith("/blogs") && path === "/blogs");
 
   const linkClass = (path) =>
-    `block px-4 py-2 text-sm md:text-base transition hover:text-[#ff8000] ${
-      isActive(path) ? "text-[#275ca0] font-semibold" : "text-gray-700"
+    `block px-4 py-2 text-sm md:text-base transition hover:text-[#ff8000] ${isActive(path) ? "text-[#275ca0] font-semibold" : "text-gray-700"
     }`;
 
   return (
@@ -49,9 +48,8 @@ export default function Navbar() {
 
         {/* Navigation Links */}
         <ul
-          className={`mt-4 md:mt-0 md:flex md:items-center md:space-x-2 ${
-            isOpen ? "block" : "hidden md:block"
-          }`}
+          className={`mt-4 md:mt-0 md:flex md:items-center md:space-x-2 ${isOpen ? "block" : "hidden md:block"
+            }`}
         >
           <li>
             <Link to="/" className={linkClass("/")}>

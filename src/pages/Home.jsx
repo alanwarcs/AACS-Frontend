@@ -2,26 +2,44 @@ import React, { useState } from "react";
 import logo from "/logo/alt512.png";
 import bluemain from "../assets/images/blue_main.png";
 import API_BASE_URL from "../config"; // ✅ Make sure you have this pointing to your backend
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const services = [
     {
-      title: "Custom Software Development",
+      title: "Custom Software & Web Solutions",
       description:
-        "Tailored software solutions with seamless functionality and performance.",
+        "Tailored software and web applications with seamless functionality, responsive design, and engaging user experiences.",
       iconClass: "fas fa-laptop-code",
     },
     {
-      title: "Modern Web Development",
+      title: "Scalable SaaS Platforms",
       description:
-        "Responsive, user-friendly websites that engage and convert.",
-      iconClass: "fas fa-mobile-alt",
+        "Cloud-powered SaaS products built for growth, flexibility, and long-term business success.",
+      iconClass: "fas fa-cloud",
     },
     {
-      title: "Scalable SaaS Solutions",
+      title: "Hardware, Networking & IT Infrastructure",
       description:
-        "Powerful SaaS tools designed to grow with your business.",
-      iconClass: "fas fa-cloud",
+        "Complete setup, configuration, and support for secure, efficient, and reliable IT systems.",
+      iconClass: "fas fa-microchip",
+    },
+    {
+      title: "Cybersecurity & Digital Protection",
+      description:
+        "Safeguarding businesses with firewalls, access control, and data security solutions.",
+      iconClass: "fas fa-shield-alt",
+    },
+    {
+      title: "Business Development & IT Consulting",
+      description: "Strategic IT planning and consulting to align technology with business goals.",
+      iconClass: "fas fa-briefcase",
+    },
+    {
+      title: "Digital Marketing & Branding",
+      description:
+        "Comprehensive digital marketing strategies including SEO, social media, and content marketing.",
+      iconClass: "fas fa-bullhorn",
     },
   ];
 
@@ -111,32 +129,27 @@ export default function Home() {
               <img src={bluemain} alt="" className="w-9 h-7" />
             </div>
           </div>
-        {/* <img src={logo} alt="Al Anwar Logo" className="w-28 h-30" /> */}
-        <h1 className="text-2xl md:text-3xl font-semibold my-4 text-[#ff8000]">
-          Welcome to Al Anwar Infotech
-        </h1>
-        <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[#275ca0]">
-          Complete IT & Digital Solutions
-        </h2>
-        <p className="text-lg md:text-xl text-gray-700 mb-8">
-          From innovative <span className="font-semibold">Software Development</span> 
-          to reliable <span className="font-semibold">Hardware, Networking, and Security Services</span>, 
-          we provide end-to-end solutions that empower your business in the digital age.
-        </p>
-        <div className="flex gap-4">
-          <Link
-            to="/services"
-            className="bg-[#ff8000] text-white px-6 py-3 rounded-full font-medium hover:shadow-lg transition"
-          >
-            Explore Services
-          </Link>
-          <Link
-            to="/contact"
-            className="border border-[#275ca0] text-[#275ca0] px-6 py-3 rounded-full font-medium hover:bg-[#275ca0] hover:text-white transition"
-          >
-            Contact Us
-          </Link>
-        </div>
+          {/* <img src={logo} alt="Al Anwar Logo" className="w-28 h-30" /> */}
+          <h1 className="text-2xl md:text-3xl font-semibold my-4 text-[#ff8000]">
+            Welcome to Al Anwar Creativity Studio
+          </h1>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[#275ca0]">
+            Complete IT & Digital Solutions
+          </h2>
+          <p className="text-lg md:text-xl text-gray-700 mb-8">
+            From innovative <span className="font-semibold">Software Development</span> to reliable <span className="font-semibold">Hardware, Networking, and Security Services</span>,
+            we provide end-to-end solutions that empower your business in the digital age.
+          </p>
+          <div className="flex gap-4">
+            <a
+              href="https://shop.alanwar.studio"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#ff8000] text-white px-6 py-3 rounded-full font-medium hover:shadow-lg transition"
+            >
+              Shop Now
+            </a>
+          </div>
         </div>
       </section>
 
@@ -194,7 +207,7 @@ export default function Home() {
         </div>
       </section>
 
-     {/* About Section + Contact Form */}
+      {/* About Section + Contact Form */}
       <section className="bg-white py-20 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-start">
           <div>
