@@ -64,11 +64,6 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
-            <a href="#shop" className={linkClass("/services")}>
-              Shop
-            </a>
-          </li>
-          <li>
             <Link to="/blogs" className={linkClass("/blogs")}>
               Blogs
             </Link>
