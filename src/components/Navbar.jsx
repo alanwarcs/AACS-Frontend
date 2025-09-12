@@ -64,9 +64,9 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
-            <Link to="#shop" className={linkClass("/services")}>
+            <a href="#shop" className={linkClass("/services")}>
               Shop
-            </Link>
+            </a>
           </li>
           <li>
             <Link to="/blogs" className={linkClass("/blogs")}>
