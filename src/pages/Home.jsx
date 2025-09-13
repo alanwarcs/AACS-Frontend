@@ -147,7 +147,7 @@ export default function Home() {
               rel="noopener noreferrer"
               className="bg-[#ff8000] text-white px-6 py-3 rounded-full font-medium hover:shadow-lg transition"
             >
-              Shop Now
+              Explore Products
             </a>
           </div>
         </div>
